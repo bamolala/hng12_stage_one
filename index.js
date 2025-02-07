@@ -2,9 +2,9 @@
 require('dotenv').config();
 
 // Import necessary dependencies
-const express = require('express');
-const axios = require('axios');
-const cors = require('cors');
+const express = require('express'); 
+const axios = require('axios'); 
+const cors = require('cors'); 
 
 // Initialize Express application
 const app = express();
@@ -13,12 +13,12 @@ const PORT = process.env.PORT || 3000;
 // Enable CORS
 app.use(cors());
 
-// Root route - Welcome Message
+// Root Route - API Welcome Message
 app.get('/', (req, res) => {
     res.json({ message: "Welcome to the Number Classification API!" });
 });
 
-// GET Endpoint for Number Classification
+// GET Endpoint to classify a number
 app.get('/api/classify-number/:number', async (req, res) => {
     const { number } = req.params;
 
@@ -28,17 +28,17 @@ app.get('/api/classify-number/:number', async (req, res) => {
     }
 
     const num = parseInt(number, 10);
-    const isPrime = checkPrime(num);
-    const isArmstrong = checkArmstrong(num);
-    const isPerfect = checkPerfect(num);
-    const digitSum = getDigitSum(num);
+    const isPrime = checkPrime(num); 
+    const isArmstrong = checkArmstrong(num); 
+    const isPerfect = checkPerfect(num); 
+    const digitSum = getDigitSum(num); 
     const properties = getProperties(num, isArmstrong);
 
-    // Fetch a fun fact from Numbers API
+    // Fetch a fun fact from the Numbers API
     let funFact = '';
     try {
         const response = await axios.get(`http://numbersapi.com/${num}/math?json`);
-        funFact = response.data.text;
+        funFact = response.data.text; // Extract fun fact text
     } catch (error) {
         funFact = "No fun fact available.";
     }
@@ -52,7 +52,7 @@ app.get('/api/classify-number/:number', async (req, res) => {
         funFact = `${num} is an Armstrong number because ${armstrongSum} = ${num}`;
     }
 
-    // Return the formatted JSON response
+    // Return JSON response with all computed data
     res.json({
         number: num,
         is_prime: isPrime,
@@ -75,13 +75,13 @@ function checkPrime(num) {
 // Function to check if a number is an Armstrong number
 function checkArmstrong(num) {
     const digits = num.toString().split('').map(Number);
-    const power = digits.length;
+    const power = digits.length; 
     return digits.reduce((sum, digit) => sum + Math.pow(digit, power), 0) === num;
 }
 
-// Function to check if a number is perfect
+// Function to check if a number is a Perfect number
 function checkPerfect(num) {
-    let sum = 1;
+    let sum = 1; 
     for (let i = 2; i * i <= num; i++) {
         if (num % i === 0) {
             sum += i;
@@ -91,15 +91,15 @@ function checkPerfect(num) {
     return num !== 1 && sum === num;
 }
 
-// Function to get the sum of the digits of a number
+// Function to calculate the sum of a number’s digits
 function getDigitSum(num) {
     return num.toString().split('').reduce((sum, digit) => sum + parseInt(digit), 0);
 }
 
-// Function to determine the number's properties (Armstrong, even/odd)
+// Function to get number properties
 function getProperties(num, isArmstrong) {
     const properties = [];
-    if (isArmstrong) properties.push("armstrong");
+    if (isArmstrong) properties.push("armstrong"); 
     properties.push(num % 2 === 0 ? "even" : "odd");
     return properties;
 }
