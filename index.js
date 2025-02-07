@@ -15,8 +15,8 @@ app.use(cors());
 
 
 //GET Endpoint
-app.get('/api/classify-number', async (req, res) => {
-    const { number } = req.query; // Extract 'number' from query parameters
+app.get('/api/classify-number/:number', async (req, res) => {
+    const { number } = req.params;
 
     // Validate input
     if (!number || isNaN(number)) {
