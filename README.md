@@ -76,7 +76,7 @@ The API will run at http://localhost:3000.
 
 The API is deployed at:
 
- https://hng12-stage-one-3k8i.onrender.com/api/classify-number?number=371
+https://hng12-stage-one-j006.onrender.com/api/classify-number/371
 
 * HOW IT WORKS
   
