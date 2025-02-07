@@ -13,10 +13,6 @@ const PORT = process.env.PORT || 3000;
 // Enable CORS
 app.use(cors());
 
-// Default route for root URL
-app.get('/', (req, res) => {
-    res.json({ message: "Welcome to the Number Classification API!" });
-});
 
 //GET Endpoint
 app.get('/api/classify-number', async (req, res) => {
