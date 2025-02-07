@@ -43,7 +43,7 @@ app.get('/api/classify-number/:number', async (req, res) => {
         funFact = "No fun fact available.";
     }
 
-    // If it's an Armstrong number, override the fun fact
+    // Correct Fun Fact for Armstrong Numbers
     if (isArmstrong) {
         const digits = num.toString().split('').map(Number);
         const power = digits.length;
