@@ -13,11 +13,16 @@ const PORT = process.env.PORT || 3000;
 // Enable CORS
 app.use(cors());
 
-// GET Endpoint
+// Root route - Welcome Message
+app.get('/', (req, res) => {
+    res.json({ message: "Welcome to the Number Classification API!" });
+});
+
+// GET Endpoint for Number Classification
 app.get('/api/classify-number/:number', async (req, res) => {
     const { number } = req.params;
 
-    // Validate input (ensure it's a valid integer)
+    // Validate input (must be a valid integer)
     if (!number || isNaN(number)) {
         return res.status(400).json({ number, error: true });
     }
@@ -29,16 +34,16 @@ app.get('/api/classify-number/:number', async (req, res) => {
     const digitSum = getDigitSum(num);
     const properties = getProperties(num, isArmstrong);
 
-    // Fetch a fun fact from the Numbers API
+    // Fetch a fun fact from Numbers API
     let funFact = '';
     try {
         const response = await axios.get(`http://numbersapi.com/${num}/math?json`);
-        funFact = response.data.text; // Extract fun fact text
+        funFact = response.data.text;
     } catch (error) {
         funFact = "No fun fact available.";
     }
 
-    // If the number is an Armstrong number, override the fun fact
+    // If it's an Armstrong number, override the fun fact
     if (isArmstrong) {
         const digits = num.toString().split('').map(Number);
         const power = digits.length;
@@ -47,7 +52,7 @@ app.get('/api/classify-number/:number', async (req, res) => {
         funFact = `${num} is an Armstrong number because ${armstrongSum} = ${num}`;
     }
 
-    // Return JSON response with all computed data
+    // Return the formatted JSON response
     res.json({
         number: num,
         is_prime: isPrime,
