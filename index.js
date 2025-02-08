@@ -14,8 +14,8 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 
 // API Endpoint: GET /api/classify-number
-app.get("/api/classify-number/:number", async (req, res) => {
-    const { number } = req.params;
+app.get("/api/classify-number", async (req, res) => {
+    const { number } = req.query; // Use query parameter
 
     // Validate input
     if (!number || isNaN(number) || !Number.isInteger(Number(number))) {
