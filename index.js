@@ -13,6 +13,42 @@ const PORT = process.env.PORT || 3000;
 // Enable CORS
 app.use(cors());
 
+// API Endpoint: GET /api/classify-number
+app.get("/api/classify-number", async (req, res) => {
+    const { number } = req.query;
+
+    // Validate input
+    if (!number || isNaN(number) || !Number.isInteger(Number(number))) {
+        return res.status(400).json({ number, error: true });
+    }
+
+    const num = parseInt(number, 10);
+    const isPrime = checkPrime(num);
+    const isArmstrong = checkArmstrong(num);
+    const isPerfect = checkPerfect(num);
+    const digitSum = getDigitSum(num);
+    const properties = getProperties(num, isArmstrong);
+    let funFact = await getFunFact(num);
+
+
+    // Adjust fun fact for Armstrong numbers
+    if (isArmstrong) {
+        const digits = num.toString().split("").map(Number);
+        const power = digits.length;
+        const armstrongSum = digits.map((d) => `${d}^${power}`).join(" + ");
+        funFact = `${num} is an Armstrong number because ${armstrongSum} = ${num}`;
+    }
+
+    res.json({
+        number: num,
+        is_prime: isPrime,
+        is_perfect: isPerfect,
+        properties,
+        digit_sum: digitSum,
+        fun_fact: funFact,
+    });
+});
+
 // Cache object for storing fun facts
 const cache = {};
 
@@ -68,40 +104,6 @@ function getProperties(num, isArmstrong) {
     return [isArmstrong ? "armstrong" : null, num % 2 === 0 ? "even" : "odd"].filter(Boolean);
 }
 
-// API Endpoint: GET /api/classify-number
-app.get("/api/classify-number", async (req, res) => {
-    const { number } = req.query;
-
-    // Validate input
-    if (!number || isNaN(number) || !Number.isInteger(Number(number))) {
-        return res.status(400).json({ number, error: true });
-    }
-
-    const num = parseInt(number, 10);
-    const isPrime = checkPrime(num);
-    const isArmstrong = checkArmstrong(num);
-    const isPerfect = checkPerfect(num);
-    const digitSum = getDigitSum(num);
-    const properties = getProperties(num, isArmstrong);
-    const funFact = await getFunFact(num);
-
-    // Adjust fun fact for Armstrong numbers
-    if (isArmstrong) {
-        const digits = num.toString().split("").map(Number);
-        const power = digits.length;
-        const armstrongSum = digits.map((d) => `${d}^${power}`).join(" + ");
-        funFact = `${num} is an Armstrong number because ${armstrongSum} = ${num}`;
-    }
-
-    res.json({
-        number: num,
-        is_prime: isPrime,
-        is_perfect: isPerfect,
-        properties,
-        digit_sum: digitSum,
-        fun_fact: funFact,
-    });
-});
 
 // Start the server
 app.listen(PORT, () => console.log(`✅ Server running on port ${PORT}`));
