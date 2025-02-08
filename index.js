@@ -13,9 +13,9 @@ const PORT = process.env.PORT || 3000;
 // Enable CORS
 app.use(cors());
 
-// API Endpoint: GET /api/classify-number
-app.get("/api/classify-number", async (req, res) => {
-    const { number } = req.query; // Use query parameter
+// API Endpoint: GET /api/classify-number/:number
+app.get("/api/classify-number/:number", async (req, res) => {
+    const { number } = req.params;
 
     // Validate input
     if (!number || isNaN(number) || !Number.isInteger(Number(number))) {
@@ -29,7 +29,6 @@ app.get("/api/classify-number", async (req, res) => {
     const digitSum = getDigitSum(num);
     const properties = getProperties(num, isArmstrong);
     let funFact = await getFunFact(num);
-
 
     // Adjust fun fact for Armstrong numbers
     if (isArmstrong) {
@@ -103,7 +102,6 @@ function getDigitSum(num) {
 function getProperties(num, isArmstrong) {
     return [isArmstrong ? "armstrong" : null, num % 2 === 0 ? "even" : "odd"].filter(Boolean);
 }
-
 
 // Start the server
 app.listen(PORT, () => console.log(`✅ Server running on port ${PORT}`));
