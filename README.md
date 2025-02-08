@@ -19,11 +19,11 @@ This API classifies numbers based on mathematical properties and provides a fun 
 - CORS (Cross-Origin Resource Sharing)
 
 ## API Endpoint
-`GET /api/classify-number?number=<number>`
+`GET /api/classify-number/:number`
 
 ### Example Request
 ```bash
-curl "https://hng12-stage-one-j006.onrender.com/api/classify-number?number=371
+curl "https://hng12-stage-one-j006.onrender.com/api/classify-number/371"
 ```
 Successful Response (200 OK)
 json
@@ -58,9 +58,9 @@ npm start
 The API will run at http://localhost:3000.
 
 Deployment
-The API is deployed on Render at:
+The API is deployed on Vercel at:
 
-https://hng12-stage-one-j006.onrender.com/api/classify-number?number=371
+`..............`
 
 ### **How It Works**
 Prime Number Check: Determines if the number has exactly two divisors (1 and itself).
@@ -90,4 +90,4 @@ Submit a pull request.
 Acknowledgments
 Numbers API for providing fun facts.
 
-Render for hosting the API.
+Vercel for hosting the API.
